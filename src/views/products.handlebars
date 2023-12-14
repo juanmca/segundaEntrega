@@ -1,0 +1,78 @@
+<br> <a href="/"><h3>Home</h3></a> <br>
+<h1>Products</h1>
+
+<form action="/products" method="GET">
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+        <option value="">All</option>
+        <option value="Ropa deportiva">Ropa deportiva</option>
+        <option value="Zapatillas">Zapatillas</option>
+        <option value="Accesorios">Accesorios</option>
+        <option value="Outlet">Outlet</option>
+        <option value="Souvenirs">Souvenirs</option>
+    </select>
+
+    <label for="available">Available:</label>
+    <input type="checkbox" name="available" id="available" value="true">
+
+    <label for="limit">Limit:</label>
+    <input type="number" name="limit" id="limit" value="10" min="1">
+
+    <label for="sortByPrice">Sort By Price:</label>
+    <select name="sortByPrice" id="sortByPrice">
+        <option value="">None</option>
+        <option value="asc">Low to High</option>
+        <option value="desc">High to Low</option>
+    </select>
+
+    <button type="submit">Apply Filters</button>
+</form>
+
+{{#if productsData.payload.length}}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each productsData.payload}}
+                <tr>
+                    <td>{{this.title}}</td>
+                    <td>{{this.description}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.stock}}</td>
+                    <td>{{this.category}}</td>
+                    <td>
+                        <button class="addToCartBtn" data-product-id="{{this._id}}">Add to Cart</button>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+<div>
+    {{#if productsData.hasPrevPage}}
+    <a href="?page={{productsData.prevPage}}">Previous</a>
+    {{/if}}
+
+    Page {{productsData.page}} of {{productsData.totalPages}}
+
+    {{#if productsData.hasNextPage}}
+    <a href="?page={{productsData.nextPage}}">Next</a>
+    {{/if}}
+</div>
+
+<button id="goToCartBtn">Ir al Carrito</button>
+
+{{else}}
+<p>No products available.</p>
+{{/if}}
+
+
+<script src="js/cartScripts.js"></script>
